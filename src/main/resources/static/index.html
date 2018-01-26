@@ -17,15 +17,19 @@
                 </div>
             </div>
         </div>
-
-        <form class="form-inline">
-            <button id="updateResults" type="submit" class="btn btn-success">Update Results</button>
-        </form>
     </div>
 
     <div class="container">
         <h2>All notes</h2>
-        <table id="notesTable" class="table table-striped">
+        <div id="toolbar">
+        </div>
+        <table id="notesTable"
+               class="table table-striped"
+               data-toolbar="#toolbar"
+               data-show-refresh="true"
+               data-pagination="false"
+               data-query-params=""
+               data-url="/note">
             <thead>
             <tr>
                 <th data-field="id">ID</th>
@@ -46,31 +50,8 @@
 
 <script>
     $(document).ready(function () {
-        $("#updateResults").click(function (e) {
-            remoteNotes();
-            updateNotes();
-            e.preventDefault();
-        });
-
-        updateNotes();
+        $('#notesTable').bootstrapTable();
     });
-
-    function updateNotes() {
-        allNotes(function (notes) {
-            $('#notesTable').bootstrapTable({
-                data: notes
-            });
-            $('div.fixed-table-loading').remove() //I'm sure there is some flag on datatables that would allow us to remove this
-        })
-    }
-
-    function remoteNotes() {
-        $('#notesTable').bootstrapTable('destroy');
-    }
-
-    function allNotes(cb) {
-        $.getJSON("/note", cb)
-    }
 </script>
 
 </body>
