@@ -23,20 +23,25 @@ public class RestTemplateNoteGateway implements NoteGateway {
     }
 
     @Override
-    public List<Note> allNotes() {
+    public List<Note> all() {
         return restTemplate.exchange(URI.create(backendProperties.getNotesFullPath()),
-                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Note>>() {
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Note>>() {
         }).getBody();
     }
 
     @Override
-    public Note addNote(Note note) {
+    public Note add(Note note) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        final HttpEntity<Note> entity = new HttpEntity<Note>(note, headers);
+        final HttpEntity<Note> entity = new HttpEntity<>(note, headers);
         return restTemplate.postForEntity(
                 URI.create(backendProperties.getNotesFullPath()), entity, Note.class
         ).getBody();
+    }
+
+    @Override
+    public void delete(int id) {
+        restTemplate.delete(URI.create(backendProperties.getNotesFullPath(id)));
     }
 }

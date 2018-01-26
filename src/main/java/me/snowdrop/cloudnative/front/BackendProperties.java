@@ -6,6 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "service.backend")
 public class BackendProperties {
 
+    private static final String NOTE_PATH_FORMAT = "http://%s/%s/%s";
+    private static final String NOTE_PATH_FORMAT_WITH_ID = NOTE_PATH_FORMAT + "/%d";
+
     @NotBlank
     private String name;
     private String apiPath = "api";
@@ -36,6 +39,10 @@ public class BackendProperties {
     }
 
     public String getNotesFullPath() {
-        return String.format("http://%s/%s/%s", name, apiPath, notesPath);
+        return String.format(NOTE_PATH_FORMAT, name, apiPath, notesPath);
+    }
+
+    public String getNotesFullPath(int id) {
+        return String.format(NOTE_PATH_FORMAT_WITH_ID, name, apiPath, notesPath, id);
     }
 }

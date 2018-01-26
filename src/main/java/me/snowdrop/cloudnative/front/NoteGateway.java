@@ -5,7 +5,9 @@ import java.util.List;
 
 public interface NoteGateway {
 
-    List<Note> allNotes();
+    List<Note> all();
 
-    Note addNote(Note note);
+    Note add(Note note);
+
+    void delete(int id);
 }

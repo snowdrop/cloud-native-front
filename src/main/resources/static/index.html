@@ -30,13 +30,6 @@
                data-pagination="false"
                data-query-params=""
                data-url="/note">
-            <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                <th data-field="title">Title</th>
-                <th data-field="content">Content</th>
-            </tr>
-            </thead>
         </table>
     </div>
 </div>
@@ -46,11 +39,63 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"
 ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.js"></script>
 
 <script>
+    var $table = $('#notesTable');
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+    window.operateEvents = {
+        'click .remove': function (e, value, row, index) {
+            $.ajax({
+                url: "/note/" + row.id,
+                method: 'delete'
+                
+            }).done(function() {
+                $table.bootstrapTable('refresh');
+            });
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
     $(document).ready(function () {
-        $('#notesTable').bootstrapTable();
+        $table.bootstrapTable({
+            columns: [
+                {
+                    field: 'id',
+                    title: 'ID',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'title',
+                    title: 'title',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'content',
+                    title: 'Content',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'operate',
+                    title: 'Operations',
+                    align: 'center',
+                    events: operateEvents,
+                    formatter: operateFormatter
+                }
+            ]
+        });
     });
 </script>
 
