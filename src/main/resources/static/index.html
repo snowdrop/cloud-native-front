@@ -4,6 +4,7 @@
     <title>Cloud Native Frontend application</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
 </head>
 
 <body>
@@ -37,32 +38,43 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"
-></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.js"></script>
+        crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script src="http://issues.wenzhixin.net.cn/bootstrap-table/assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
+<script src="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
 
 <script>
     var $table = $('#notesTable');
 
-    function operateFormatter(value, row, index) {
+    function operateFormatter() {
         return [
+            '<a class="edit" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-saved"></i>',
+            '</a>  ',
             '<a class="remove" href="javascript:void(0)" title="Remove">',
             '<i class="glyphicon glyphicon-remove"></i>',
             '</a>'
         ].join('');
     }
     window.operateEvents = {
-        'click .remove': function (e, value, row, index) {
+        'click .edit': function (e, value, row) {
+            $.ajax({
+                url: "/note/" + row.id,
+                method: 'post',
+                data: JSON.stringify({"title" : row.title, "content": row.content}),
+                contentType: 'application/json'
+            }).done(function() {
+                $table.bootstrapTable('refresh');
+            });
+        },
+        'click .remove': function (e, value, row) {
             $.ajax({
                 url: "/note/" + row.id,
                 method: 'delete'
                 
             }).done(function() {
                 $table.bootstrapTable('refresh');
-            });
-            $table.bootstrapTable('remove', {
-                field: 'id',
-                values: [row.id]
             });
         }
     };
@@ -80,13 +92,15 @@
                     field: 'title',
                     title: 'title',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    editable: true
                 },
                 {
                     field: 'content',
                     title: 'Content',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    editable: true
                 }, {
                     field: 'operate',
                     title: 'Operations',

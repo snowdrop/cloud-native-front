@@ -42,7 +42,7 @@ public class BackendProperties {
         return String.format(NOTE_PATH_FORMAT, name, apiPath, notesPath);
     }
 
-    public String getNotesFullPath(int id) {
+    public String getNotesFullPath(long id) {
         return String.format(NOTE_PATH_FORMAT_WITH_ID, name, apiPath, notesPath, id);
     }
 }

@@ -41,7 +41,18 @@ public class RestTemplateNoteGateway implements NoteGateway {
     }
 
     @Override
-    public void delete(int id) {
+    public Note update(Note note) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        final HttpEntity<Note> entity = new HttpEntity<>(note, headers);
+        return restTemplate.exchange(
+                URI.create(backendProperties.getNotesFullPath(note.getId())), HttpMethod.PUT, entity, Note.class
+        ).getBody();
+    }
+
+    @Override
+    public void delete(long id) {
         restTemplate.delete(URI.create(backendProperties.getNotesFullPath(id)));
     }
 }

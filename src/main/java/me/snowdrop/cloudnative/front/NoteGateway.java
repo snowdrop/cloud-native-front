@@ -9,5 +9,7 @@ public interface NoteGateway {
 
     Note add(Note note);
 
-    void delete(int id);
+    Note update(Note note);
+
+    void delete(long id);
 }
