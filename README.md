@@ -8,3 +8,11 @@
 ```bash
     $ mvn spring-boot:run
 ```
+
+## Run on Openshift
+
+- Run the [backend](https://github.com/snowdrop/cloud-native-backend) on Openshift following it's instructions
+- Run this project by issuing
+```bash
+    $ mvn clean verify fabric8:deploy -Popenshift
+```
