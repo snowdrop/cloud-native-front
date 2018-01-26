@@ -24,9 +24,9 @@ objects:
   spec:
     ports:
     - name: http
-      port: 8090
+      port: 8080
       protocol: TCP
-      targetPort: 8090
+      targetPort: 8080
     selector:
       app: cloud-native-front
       group: me.snowdrop
@@ -40,7 +40,7 @@ objects:
     name: cloud-native-front
   spec:
     port:
-      targetPort: 8090
+      targetPort: 8080
     to:
       kind: Service
       name: cloud-native-front
@@ -80,7 +80,7 @@ objects:
           imagePullPolicy: IfNotPresent
           name: spring-boot
           ports:
-          - containerPort: 8090
+          - containerPort: 8080
             name: http
             protocol: TCP
           - containerPort: 8778
