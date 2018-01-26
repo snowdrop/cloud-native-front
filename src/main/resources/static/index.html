@@ -23,6 +23,9 @@
     <div class="container">
         <h2>All notes</h2>
         <div id="toolbar">
+            <div class="form-inline" role="form">
+                <button id="add" type="submit" class="btn btn-success" style="display: none">Add</button>
+            </div>
         </div>
         <table id="notesTable"
                class="table table-striped"
@@ -46,27 +49,42 @@
 
 <script>
     var $table = $('#notesTable');
+    var $add = $('#add');
 
     function operateFormatter() {
         return [
-            '<a class="edit" href="javascript:void(0)" title="Like">',
+            '<a class="save" href="javascript:void(0)" title="Save note">',
             '<i class="glyphicon glyphicon-saved"></i>',
             '</a>  ',
-            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<a class="remove" href="javascript:void(0)" title="Delete note">',
             '<i class="glyphicon glyphicon-remove"></i>',
             '</a>'
         ].join('');
     }
     window.operateEvents = {
-        'click .edit': function (e, value, row) {
-            $.ajax({
-                url: "/note/" + row.id,
-                method: 'post',
-                data: JSON.stringify({"title" : row.title, "content": row.content}),
-                contentType: 'application/json'
-            }).done(function() {
-                $table.bootstrapTable('refresh');
-            });
+        'click .save': function (e, value, row) {
+            if(row.id) {
+                //update an existing Note
+                $.ajax({
+                    url: "/note/" + row.id,
+                    method: 'post',
+                    data: JSON.stringify({"title" : row.title, "content": row.content}),
+                    contentType: 'application/json'
+                }).done(function() {
+                    $table.bootstrapTable('refresh');
+                });
+            } else {
+                //add new Note
+                $.ajax({
+                    url: "/note",
+                    method: 'put',
+                    data: JSON.stringify({"title" : row.title, "content": row.content}),
+                    contentType: 'application/json'
+                }).done(function() {
+                    $table.bootstrapTable('refresh');
+                });
+            }
+
         },
         'click .remove': function (e, value, row) {
             $.ajax({
@@ -80,7 +98,14 @@
     };
 
     $(document).ready(function () {
+
+
+
         $table.bootstrapTable({
+            onLoadSuccess: function() {
+                $add.show();
+            },
+
             columns: [
                 {
                     field: 'id',
@@ -109,6 +134,15 @@
                     formatter: operateFormatter
                 }
             ]
+        });
+
+        $('#add').click(function (e) {
+            $table.bootstrapTable('insertRow', {index: $table.bootstrapTable('getData').length, row: {title: "title", content: "content"}});
+
+            //only allow one new item at a time
+            $add.hide();
+
+            e.preventDefault();
         });
     });
 </script>

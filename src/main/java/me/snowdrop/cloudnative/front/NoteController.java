@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,14 +26,19 @@ public class NoteController {
         return noteGateway.all();
     }
 
-    @DeleteMapping(value = "/{id}")
+    @PutMapping
+    public Note add(@RequestBody Note note) {
+        return noteGateway.add(note);
+    }
+
+    @DeleteMapping("/{id}")
     public DefaultResult delete(@PathVariable("id") long id) {
         noteGateway.delete(id);
 
         return DefaultResult.INSTANCE;
     }
 
-    @PostMapping(value = "/{id}")
+    @PostMapping("/{id}")
     public Note update(@PathVariable("id") long id, @RequestBody Note note) {
         note.setId(id);
         return noteGateway.update(note);
