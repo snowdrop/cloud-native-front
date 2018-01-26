@@ -10,46 +10,67 @@
 <div class="container">
     <div class="row">
         <div class="sect1">
-<h2 id="_http_booster">Frontend</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>An front end that will call a backend service</p>
-</div>
-<div class="sect2">
-<h3 id="_using_the_greeting_service">Using the greeting service</h3>
-
-</div>
-</div>
-</div>
+            <h2 id="_http_booster">Frontend</h2>
+            <div class="sectionbody">
+                <div class="paragraph">
+                    <p>An front end that will call a backend service</p>
+                </div>
+            </div>
+        </div>
 
         <form class="form-inline">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="World">
-            </div>
-            <button id="invoke" type="submit" class="btn btn-success">Invoke</button>
+            <button id="updateResults" type="submit" class="btn btn-success">Update Results</button>
         </form>
+    </div>
 
-        <p class="lead">Result:</p>
-        <pre><code id="greeting-result">Invoke the service to see the result.</code></pre>
+    <div class="container">
+        <h2>All notes</h2>
+        <table id="notesTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="title">Title</th>
+                <th data-field="content">Content</th>
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 
 <script>
-  $(document).ready(function () {
-    $("#invoke").click(function (e) {
-      var n = $("#name").val() || "World";
-      $.getJSON("/api/greeting?name=" + n, function (res) {
-        $("#greeting-result").text(JSON.stringify(res));
-      });
-      e.preventDefault();
+    $(document).ready(function () {
+        $("#updateResults").click(function (e) {
+            remoteNotes();
+            updateNotes();
+            e.preventDefault();
+        });
+
+        updateNotes();
     });
-  });
+
+    function updateNotes() {
+        allNotes(function (notes) {
+            $('#notesTable').bootstrapTable({
+                data: notes
+            });
+            $('div.fixed-table-loading').remove() //I'm sure there is some flag on datatables that would allow us to remove this
+        })
+    }
+
+    function remoteNotes() {
+        $('#notesTable').bootstrapTable('destroy');
+    }
+
+    function allNotes(cb) {
+        $.getJSON("/note", cb)
+    }
 </script>
 
 </body>
