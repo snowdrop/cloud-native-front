@@ -76,6 +76,10 @@ objects:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.namespace
+          - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
+            value: http://jaeger-collector.tracing.svc:14268/api/traces
+          - name: OPENTRACING_JAEGER_SERVICE_NAME
+            value: cloud-native-frontend
           image: cloud-native-front:latest
           imagePullPolicy: IfNotPresent
           name: spring-boot
