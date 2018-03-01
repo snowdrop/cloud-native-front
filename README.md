@@ -34,7 +34,7 @@ open $HOST
 ```
 
 
-## Run on Openshift using Fabric8
+## Run on OpenShift using Fabric8
 
 During the development stage in order to get very quick feedback, the Fabric8 Maven plugin can be 
 used to deploy the application to the cluster. The following instructions specify the details  
