@@ -12,7 +12,7 @@ Frontend application of [backend](git clone https://github.com/snowdrop/cloud-na
 ```
 - The application will be available at `http://localhost:8090`
 
-## Deploy on Openshift
+## Deploy on OpenShift
 
 1. Create a new app on the cloud platform
 

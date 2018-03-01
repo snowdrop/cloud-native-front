@@ -103,7 +103,7 @@
             <id>openshift</id>
             <properties>
                 <frontend-service.port>8080</frontend-service.port>
-                <backend-service.endpoint>spring-boot-db-notes:8080</backend-service.endpoint>
+                <backend-service.endpoint>cloud-native-backend:8080</backend-service.endpoint>
             </properties>
             <build>
                 <plugins>
