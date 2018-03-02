@@ -8,7 +8,7 @@ Frontend application of [backend](git clone https://github.com/snowdrop/cloud-na
 - Run the backend locally according to it's instructions
 - Run this project by issuing
 ```bash
-    $ mvn spring-boot:run
+$ mvn spring-boot:run
 ```
 - The application will be available at `http://localhost:8090`
 
