@@ -1,14 +1,13 @@
-# cloud-native-front
+# Cloud Native Frontend
 
-Frontend application of [backend](git clone https://github.com/snowdrop/cloud-native-backend.git)
+Frontend application accessing the Cloud Native [backend](git clone https://github.com/snowdrop/cloud-native-backend.git)
 
-## Run locally
+## Run locally the Spring Boot Backend application
 
 - Clone the [backend](https://github.com/snowdrop/cloud-native-backend)
 - Run the backend locally according to it's instructions
-- Run this project by issuing
 ```bash
-$ mvn spring-boot:run
+$ mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
 ```
 - The application will be available at `http://localhost:8090`
 
@@ -17,7 +16,7 @@ $ mvn spring-boot:run
 1. Create a new app on the cloud platform
 
 ```bash
-oc new-app -f openshift/cloud-native-demo_front_template.yml
+oc new-app -f openshift/cloud-native-demo_frontend_template.yml
 ```
 
 2. Start the build using project's source
@@ -33,13 +32,12 @@ export HOST=$(oc get route/cloud-native-front -o jsonpath='{.spec.host}')
 open $HOST
 ```
 
-
 ## Run on OpenShift using Fabric8
 
 During the development stage in order to get very quick feedback, the Fabric8 Maven plugin can be 
 used to deploy the application to the cluster. The following instructions specify the details  
 
-- Run the [backend](https://github.com/snowdrop/cloud-native-backend) on Openshift following it's instructions
+- Run the [backend](https://github.com/snowdrop/cloud-native-backend) on OpenShift following it's instructions
 - Run this project by issuing
 ```bash
     $ mvn clean verify fabric8:deploy -Popenshift
