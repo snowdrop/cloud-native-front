@@ -24,7 +24,7 @@
     </parent>
 
     <groupId>me.snowdrop</groupId>
-    <artifactId>cloud-native-front</artifactId>
+    <artifactId>cloud-native-frontend</artifactId>
     <version>1.0.0</version>
     <name>Cloud Native Dvlpt :: Spring Boot Frontend</name>
 
