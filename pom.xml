@@ -20,7 +20,7 @@
     <parent>
         <groupId>io.openshift.booster</groupId>
         <artifactId>spring-boot-booster-parent</artifactId>
-        <version>1.5.10-7</version>
+        <version>1.5.13-1</version>
     </parent>
 
     <groupId>me.snowdrop</groupId>
@@ -29,7 +29,8 @@
     <name>Cloud Native Dvlpt :: Spring Boot Frontend</name>
 
     <properties>
-        <maven.spring-boot.plugin.version>1.5.10.RELEASE</maven.spring-boot.plugin.version>
+        <opentracing-jaeger.version>0.1.13</opentracing-jaeger.version>
+
         <frontend-service.port>8090</frontend-service.port>
         <backend-service.endpoint>localhost:8080</backend-service.endpoint>
     </properties>
@@ -53,14 +54,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>${maven.spring-boot.plugin.version}</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- OpenTracing -->
         <dependency>
-            <groupId>me.snowdrop</groupId>
-            <artifactId>opentracing-tracer-jaeger-spring-web-starter</artifactId>
-            <version>0.1</version>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-cloud-starter-jaeger</artifactId>
+            <version>${opentracing-jaeger.version}</version>
         </dependency>
 
         <!-- Test -->
@@ -109,7 +110,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${maven.spring-boot.plugin.version}</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <classifier>exec</classifier>
                     <attach>false</attach>
